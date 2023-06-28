@@ -2,7 +2,7 @@ import React,{useContext,useState} from 'react'
 import BlogsContext from '../Context/blogcontext'
 
 export default function BlogItem(props) {
-    const {blogs}=props
+  const {blogs}=props
     const context=useContext(BlogsContext)
     const {deleteBlog,editBlog}=context
     const [blogupdate,setblogupdate]=useState({})
@@ -10,12 +10,12 @@ export default function BlogItem(props) {
     const [Blog,setBlog]=useState({})
 
     function handleChange(){
+      console.log(blog_id)
         editBlog(blog_id,blogupdate.title,blogupdate.description,blogupdate.tag)
 
     }
   
     const onChange=(e)=>{  
-        console.log(blogupdate)
         setblogupdate({...blogupdate,[e.target.name]:e.target.value})
         setBlog({blogupdate})
       }

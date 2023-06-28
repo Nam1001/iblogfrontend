@@ -3,9 +3,8 @@ import BlogsContext from '../Context/blogcontext'
 import BlogItem from './BlogItem'
 
 export default function Blog(props) {
-    const {blogs}=props
     const context=useContext(BlogsContext)
-    const {fetchall}=context
+    const {fetchall,blogs}=context
 
     useEffect(()=>{
        fetchall()

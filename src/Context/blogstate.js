@@ -27,7 +27,7 @@ const BlogState=(props)=>{
           });
           const json=await response.json()
           if(json.errors){
-            alert("Min 3 Characters required to all Fields")
+            return alert("Min 3 Characters required to all Fields")
           }
           const AddBlog= {
             "title": json.title,
@@ -39,52 +39,57 @@ const BlogState=(props)=>{
 
           setblogs([...blogs,AddBlog])
           alert('Successfully created a blog')
+          window.location.reload()
 
     }
     const deleteBlog=async(id)=>{
-        const response = await fetch(`${host}/api/blogs/deleteblogs/${id}`, {
+        const response = await fetch(`${host}/api/blog/deleteblog/${id}`, {
             method: "DELETE",
-            headers: {
+            header: {
               "Content-Type": "application/json"
             },
             body: JSON.stringify()
           });
-          console.log(response.json())
+          const responseBody = await response.text();
+          console.log(responseBody)
         const newBlog=blogs.filter((blog)=>{return blog._id!==id})
+        console.log(blogs,"blogs")
+        console.log(newBlog)
+        alert("Deleted Successfully")
         console.log("delete the note of id"+id)
         setblogs(newBlog)
         
      }
-     
      const editBlog = async (id,  title, description, tag ) => {
-        console.log(title,description,tag,"items")
-          const response = await fetch(`${host}/api/blog/updateblog/${id}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json"        
-            },
-            body: JSON.stringify({ title, description, tag })
-          });
-          const json = await response.json();
-          if(!title){
-            title=json.title
+      console.log(title,description,tag,"items")
+        const response = await fetch(`${host}/api/blog/updateblog/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",         
+          },
+          body: JSON.stringify({ title, description, tag })
+        });
+        const json = await response.json();
+        if(!title){
+          title=json.title
+        }
+        if(!tag){
+          tag=json.tag
+        }
+        if(!description){
+          description=json.description
+        }
+        // Update the notes state with the new values
+        const updatedNotes = blogs.map((note) => {
+          if (note._id === id) {
+            console.log(title)
+            return { ...note, title, description, tag};
           }
-          if(!tag){
-            tag=json.tag
-          }
-          if(!description){
-            description=json.description
-          }
-          // Update the blog state with the new values
-          const updatedBlog = blogs.map((blog) => {
-            if (blog._id === id) {
-              console.log(title)
-              return { ...blog, title, description, tag};
-            }
-            return blog;
-          });
-                  setblogs(updatedBlog);
-        };
+          return note;
+        });
+                setblogs(updatedNotes);
+                alert("Updated Successfully")
+      };
 
     return(
         <BlogsContext.Provider value={{blogs ,fetchall,createblog,editBlog,deleteBlog}} >
