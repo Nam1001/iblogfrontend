@@ -73,7 +73,7 @@ export default function BlogItem(props) {
   </div>
 </div>
 
-   {blogs?blogs.map((blog) => (
+   {blogs.map((blog) => (
   <div className="card" style={{ width: "18rem", margin: "1rem", borderRadius: "2rem" }}>
     <div className="card-body">
       <h5 className="card-title" style={{ fontWeight: 'bold' }}>{blog.title}</h5>
@@ -92,7 +92,7 @@ export default function BlogItem(props) {
       </div>
     </div>
   </div>
-)):""}
+))}
    </>
   )
 }
